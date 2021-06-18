@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Chats>
+
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Report</h2>
+
+<div>
+    <h1>Chats</h1>
+        <table style="border: 1px solid black; text-align:center;" width="100%">
+            <thead  style="border: 1px solid black;">
+                <tr>
+                    <th width="20%">Name</th>
+                    <th width="60%">Message</th>
+                    <th width="20%">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(e => item.Name)</td>
+                        <td>@Html.DisplayFor(e => item.Message)</td>
+                        <td>@Html.DisplayFor(e => item.Date)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "NonGenerated";
+}
+
+<h2>NonGenerated</h2>
+<!--
+           1-define connection
+           2-create proxy
+           3-start connection
+           4-send
+           5-subscribe / recieve // hub recieve
+           -->
+@section scripts{
+<script>
+        $(() => {
+            name = prompt("Enter Your Name");
+            //1 - define connection
+            var con = $.hubConnection();
+            //con.url = "";
+            //2 - create proxy
+            proxy = con.createHubProxy("chat");
+            //3 - start connection
+            // con.start({ transport: 'longPolling' });
+            con.start();
+            //    .done(function () {
+            //    console.log("connection started!");
+            //});
+            //5 - subscribe / recieve // hub recieve
+            proxy.on("newMessage", (n, m) => {
+                $("#msg").append("<li>" + n + ":" + m + "</li>")
+            });
+        })
+        //4 - send
+        function send() {
+            proxy.invoke("sendMessage", name, $("#text").val());
+        }
+        //recieve
+</script>
+    }
+    <input type="text" name="name" id="text" value="" />
+    <button onclick="send()"> send</button>
+    <ul id="msg">
+    </ul>

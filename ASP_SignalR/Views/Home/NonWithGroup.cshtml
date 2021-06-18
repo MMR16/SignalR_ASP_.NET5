@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "NonWithGroup";
+}
+
+<h1>NonWithGroup</h1>
+<!--
+           1-define connection
+           2-create proxy
+           3-start connection
+           4-send
+           5-subscribe / recieve // hub recieve
+           -->
+@section scripts{
+    <script>
+//const { proxy } = require("jquery");
+
+
+        $(() => {
+            name = prompt("Enter Your Name");
+            //1 - define connection
+            var con = $.hubConnection();
+            //con.url = "";
+            //2 - create proxy
+            proxy = con.createHubProxy("chat");
+            //3 - start connection
+            // con.start({ transport: 'longPolling' });
+            con.start();
+            //    .done(function () {
+            //    console.log("connection started!");
+            //});
+            //5 - subscribe / recieve // hub recieve
+            proxy.on("newMessage", (n, m) => {
+                $("#msg").append("<li>" + n + ":" + m + "</li>")
+            });
+
+            proxy.on("newMember", (m) => {
+                $("#msg").append("<li style='color: red'>" + m + "</li>")
+            });
+
+            proxy.on("newGroupMessage", (n,gn,m) => {
+                $("#msg").append("<li style='color: red'>" +n+ "(" +gn+ "): "+ m + "</li>")
+            });
+        })
+        //4 - send
+        function send() {
+            proxy.invoke("sendMessage", name, $("#text").val());
+        }
+
+        function join() {
+            proxy.invoke("joinGroup", $("#gtxt").val(), name)
+        }
+
+        function sendGroup() {
+            proxy.invoke("sendGroup", $("#gtxt").val(), name, $("#text").val())
+        }
+        //recieve
+    </script>
+}
+<input type="text" name="name" id="text" value="" />
+<button onclick="send()"> send to all</button>
+<input type="text" name="Gtext" id="gtxt" value="" />
+<button onclick="join()"> join Group</button>
+<button onclick="sendGroup()"> send to Group</button>
+<ul id="msg">
+</ul>

@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Generated";
+}
+@section Hub{
+    <script src="~/signalr/hubs"></script>
+}
+@section scripts {
+    <!--
+     1-define connection
+     2-create proxy
+     3-start connection
+     4-send
+     5-subscribe / recieve // hub recieve
+     -->
+    <!--connection to service
+        create proxy
+        using proxy
+        Default Proxy ----- signalr/hubs
+        -->
+    <script>
+        $(() => {
+            //get hub name
+            chatHub = $.connection.chat;
+            //start connection
+            //url if not local
+            //$.connection.hub.url = "http://localhost:8076/";
+            //changing piority {transport:'longPolling'}
+            $.connection.hub.start({ transport: 'longPolling' });
+            //subscribe // hub recieve
+            chatHub.client.newMessage = (n, m) => {
+                $("#msg").append("<li>" + n + ":" + m + "</li>")
+            }
+
+            name = prompt("Enter Your Name");
+        })
+        //send -- Calling method
+        function send() {
+            chatHub.server.sendMessage(name, $("#text").val())
+        }
+        //recieve
+    </script>
+}
+<h2>Generated</h2>
+
+<input type="text" name="name" id="text" value="" />
+<button onclick="send()"> send</button>
+<ul id="msg">
+</ul>

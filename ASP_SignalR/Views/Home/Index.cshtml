@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Home</h2>
+<div style="display:flex; flex-direction:column;">
+    @Html.ActionLink("With Generated", "Generated", "Home", null, new { style = "Color:red;display:inline-block;width:20%;height:inherit;background-color:rgb(0,0,0);font-size:30px;margin: 20px 0 ", target = "_blank" })
+    @Html.ActionLink("Without Generated", "NonGenerated", "Home", null, new { style = "Color:blue;display:inline-block;width:20%;height:inherit;background-color:rgb(10,170,10);font-size:30px ;margin: 20px 0 ", target = "_blank" })
+    @Html.ActionLink("Without Generated Using Group ", "NonWithGroup", "Home", null, new { style = "Color:blue;display:inline-block;width:20%;height:inherit;background-color:rgb(10,100,10);font-size:30px ;margin: 20px 0 ", target = "_blank" })
+</div>
+<div>
+ @using (Html.BeginForm("Report", "Home", method: FormMethod.Post))
+ {
+    <input type="text" name="name" value=""  placeholder="enter name to search" /> <span style="color:red">@if(Session["error"] != null)
+    {
+        @Session["error"]
+    } </span>
+
+<input type="submit"  value="Search" style="color:red;" />
+    }
+</div>
